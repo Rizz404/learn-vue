@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import TodoList from './components/TodoList.vue'
+import AdvanceCounter from './components/AdvanceCounter.vue'
+// import TodoList from './components/TodoList.vue'
 // import HelloWorld from './HelloWorld.vue'
 </script>
 
 <template>
   <div id="app">
-    <TodoList />
+    <AdvanceCounter />
   </div>
 </template>
 
