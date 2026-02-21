@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import AdvanceCounter from './components/AdvanceCounter.vue'
+// import AdvanceCounter from './components/AdvanceCounter.vue'
+import UserForm from './components/UserForm.vue'
 // import TodoList from './components/TodoList.vue'
 // import HelloWorld from './HelloWorld.vue'
 </script>
 
 <template>
   <div id="app">
-    <AdvanceCounter />
+    <UserForm />
   </div>
 </template>
 
