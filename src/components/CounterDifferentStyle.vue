@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const props = defineProps({
-  initialValue: {
-    type: Number,
-    default: 0,
-  },
-  step: {
-    type: Number,
-    default: 1,
-  },
+interface Props {
+  initialValue?: number
+  step?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  initialValue: 0,
+  step: 1,
 })
 
-const emit = defineEmits(['change'])
+const emit = defineEmits<{
+  change: [value: number]
+}>()
 
 const count = ref(props.initialValue)
 
