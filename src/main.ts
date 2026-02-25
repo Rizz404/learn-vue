@@ -6,8 +6,9 @@ import AppFor31 from './AppFor31.vue'
 import AppFor32 from './AppFor32.vue'
 import AppFor33 from './AppFor33.vue'
 import AppFor34 from './AppFor34.vue'
+import AppFor41 from './AppFor41.vue'
 
 const { initDarkMode } = useDarkMode()
 initDarkMode()
 
-createApp(AppFor34).mount('#app')
+createApp(AppFor41).mount('#app')
