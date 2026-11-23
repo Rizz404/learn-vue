@@ -13,12 +13,11 @@ export function useFetch<T>(url: MaybeRefOrGetter<string>): UseFetchReturn<T> {
   const isLoading = ref(false)
 
   const execute = async (): Promise<void> => {
+    isLoading.value = true
+    error.value = null
     try {
       // toValue() akan me-resolve string, ref, atau getter menjadi string
       const urlValue = toValue(url)
-
-      // Simulasi delay jaringan (opsional, cuma buat keliatan loadingnya)
-      await new Promise((resolve) => setTimeout(resolve, 800))
 
       const response = await fetch(urlValue)
 
