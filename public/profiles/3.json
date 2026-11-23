@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "title": "Laravel route and view exercises",
+  "summary": "Learn Laravel v10 explores controllers, named routes, and shared Blade components. The repository contains home, product, cart, and login views as early learning exercises.",
+  "facts": [
+    { "label": "Framework", "value": "Laravel 10 · PHP" },
+    { "label": "Templates", "value": "Blade components and slots" },
+    { "label": "Learning scope", "value": "Routing and server-rendered views" }
+  ],
+  "repository": "https://github.com/Rizz404/learn-laravel-v10",
+  "repositoryLabel": "View the Laravel exercises"
+}

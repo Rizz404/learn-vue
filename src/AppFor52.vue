@@ -2,100 +2,95 @@
 import { ref, computed } from 'vue'
 import { useFetch } from '@/composables/useFetch'
 
-// 1. Definisikan tipe untuk response API
-interface User {
+interface ProfileSection {
   id: number
-  name: string
-  email: string
-  company: { name: string }
+  title: string
+  summary: string
+  facts: { label: string; value: string }[]
+  repository: string
+  repositoryLabel: string
 }
 
-// 2. State untuk mengontrol User ID yang mau difetch
-const userId = ref<number>(1)
-
-// 3. Computed getter untuk URL (ini yang bikin reaktif!)
-const apiUrl = computed(() => `https://jsonplaceholder.typicode.com/users/${userId.value}`)
-
-// 4. Panggil useFetch — perhatikan generic <User> dan kita passing apiUrl (ComputedRef)
-const { data: user, isLoading, error, execute: refetch } = useFetch<User>(apiUrl)
-
-const nextUser = (): void => {
-  if (userId.value < 10) userId.value++
-}
-
-const prevUser = (): void => {
-  if (userId.value > 1) userId.value--
-}
+const sectionId = ref(1)
+const contentUrl = computed(() => `${import.meta.env.BASE_URL}profiles/${sectionId.value}.json`)
+const { data: section, isLoading, error, execute: refetch } = useFetch<ProfileSection>(contentUrl)
 </script>
 
 <template>
   <main class="min-h-screen bg-background flex flex-col items-center justify-center p-8">
-    <div
-      class="bg-surface border border-border rounded-[--radius-card] p-6 w-full max-w-sm flex flex-col gap-6"
+    <div class="w-full max-w-xl mb-6">
+      <p class="text-xs font-mono text-content-muted uppercase tracking-widest mb-3">
+        Learn Vue / Composition API
+      </p>
+      <h1 class="text-3xl font-semibold text-content mb-3">Developer profile explorer</h1>
+      <p class="text-sm text-content-secondary leading-relaxed">
+        A reactive profile viewer built with Vue and TypeScript. Explore the developer and the
+        repositories behind these learning exercises.
+      </p>
+    </div>
+    <section
+      aria-live="polite"
+      class="bg-surface border border-border rounded-2xl p-8 w-full max-w-xl flex flex-col gap-6"
     >
-      <!-- Header & Controls -->
-      <div class="flex items-center justify-between">
-        <h2 class="text-base font-semibold text-content">User Profile</h2>
-        <div class="flex gap-2">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold"
+          >
+            RR
+          </div>
+          <div>
+            <p class="font-medium text-content">Rizqiansyah Ramadhan</p>
+            <a href="https://github.com/Rizz404" class="text-xs text-primary">github.com/Rizz404</a>
+          </div>
+        </div>
+        <div class="flex gap-2 items-center">
           <button
-            @click="prevUser"
-            :disabled="userId === 1 || isLoading"
-            class="w-8 h-8 flex items-center justify-center rounded bg-secondary text-secondary-fg hover:bg-secondary-hover transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Previous profile section"
+            @click="sectionId--"
+            :disabled="sectionId === 1 || isLoading"
+            class="w-8 h-8 rounded bg-secondary text-secondary-fg disabled:opacity-30"
           >
             &larr;
           </button>
-          <span class="text-xs font-mono w-6 text-center leading-8 text-content-muted">
-            {{ userId }}
-          </span>
+          <span class="text-xs font-mono text-content-muted">{{ sectionId }} / 3</span>
           <button
-            @click="nextUser"
-            :disabled="userId === 10 || isLoading"
-            class="w-8 h-8 flex items-center justify-center rounded bg-secondary text-secondary-fg hover:bg-secondary-hover transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Next profile section"
+            @click="sectionId++"
+            :disabled="sectionId === 3 || isLoading"
+            class="w-8 h-8 rounded bg-secondary text-secondary-fg disabled:opacity-30"
           >
             &rarr;
           </button>
         </div>
       </div>
-
-      <!-- State: Loading -->
-      <div v-if="isLoading" class="py-12 flex justify-center">
-        <span class="animate-pulse text-content-muted text-sm font-medium">Fetching data...</span>
-      </div>
-
-      <!-- State: Error -->
-      <div
-        v-else-if="error"
-        class="p-4 rounded-lg bg-danger/10 border border-danger/20 text-danger text-sm flex flex-col gap-3"
-      >
-        <p>Gagal memuat data.</p>
-        <p class="font-mono text-xs">{{ error.message }}</p>
-        <button
-          @click="refetch"
-          class="px-3 py-1.5 rounded bg-danger text-danger-fg text-xs font-medium w-fit hover:opacity-90"
-        >
-          Coba Lagi
+      <p v-if="isLoading" class="py-10 text-content-muted text-sm">Loading profile section...</p>
+      <div v-else-if="error" class="p-4 rounded-lg bg-danger/10 text-danger text-sm">
+        <p>Unable to load this profile section.</p>
+        <p class="font-mono text-xs mt-2">{{ error.message }}</p>
+        <button @click="refetch" class="mt-3 px-3 py-2 rounded bg-danger text-danger-fg">
+          Try again
         </button>
       </div>
-
-      <!-- State: Success (Data) -->
-      <div v-else-if="user" class="flex flex-col gap-4">
-        <div class="flex items-center gap-4">
-          <div
-            class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg"
+      <div v-else-if="section">
+        <div class="border-t border-border-subtle pt-6">
+          <h2 class="text-xl font-semibold text-content mb-3">{{ section.title }}</h2>
+          <p class="text-sm text-content-secondary leading-relaxed mb-6">{{ section.summary }}</p>
+          <dl class="flex flex-col gap-4">
+            <div
+              v-for="fact in section.facts"
+              :key="fact.label"
+              class="flex justify-between gap-6 border-b border-border-subtle pb-3"
+            >
+              <dt class="text-xs text-content-muted">{{ fact.label }}</dt>
+              <dd class="text-sm text-content text-right">{{ fact.value }}</dd>
+            </div>
+          </dl>
+          <a :href="section.repository" class="inline-block mt-6 text-sm font-medium text-primary"
+            >{{ section.repositoryLabel }} &nearr;</a
           >
-            {{ user.name.charAt(0) }}
-          </div>
-          <div>
-            <p class="font-medium text-content">{{ user.name }}</p>
-            <p class="text-xs text-content-secondary">{{ user.email }}</p>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-border-subtle flex flex-col gap-1">
-          <span class="text-xs text-content-muted">Company</span>
-          <span class="text-sm font-medium text-content">{{ user.company.name }}</span>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 </template>

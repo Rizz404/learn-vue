@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "title": "Web development projects",
+  "summary": "Rizqiansyah Ramadhan publishes web applications and learning repositories as Rizz404. His projects include visitor analytics, lyric tools, portfolio websites, and Vue and Laravel exercises.",
+  "facts": [
+    { "label": "GitHub", "value": "Rizz404" },
+    { "label": "Frontend", "value": "Vue · TypeScript · React" },
+    { "label": "Backend repositories", "value": "Laravel · Spring Boot · Express" }
+  ],
+  "repository": "https://github.com/Rizz404",
+  "repositoryLabel": "Explore GitHub repositories"
+}

@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "title": "Vue Composition API",
+  "summary": "Learn Vue contains exercises for components, forms, timers, lists, theme tokens, and reusable composables. This active exercise fetches a profile section whenever its reactive identifier changes.",
+  "facts": [
+    { "label": "Framework", "value": "Vue 3 · TypeScript" },
+    { "label": "Reactive primitives", "value": "ref · computed · watchEffect" },
+    { "label": "Content source", "value": "Local JSON assets via fetch" }
+  ],
+  "repository": "https://github.com/Rizz404/learn-vue",
+  "repositoryLabel": "View the Learn Vue source"
+}
